@@ -1,4 +1,4 @@
-package ch.ipt.kafka.exercise8;
+package ch.ipt.kafka.exercises.exercise2;
 
 import ch.ipt.kafka.clients.avro.Payment;
 import io.confluent.kafka.serializers.AbstractKafkaSchemaSerDeConfig;
@@ -7,6 +7,9 @@ import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
+import org.apache.kafka.streams.kstream.Consumed;
+import org.apache.kafka.streams.kstream.KStream;
+import org.apache.kafka.streams.kstream.Produced;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,19 +21,17 @@ import java.util.Properties;
 
 
 //@Component
-public class KafkaStreamsJoinAggregate {
+public class KafkaStreamsMapValue {
 
     @Value("${source-topic-transactions}")
     private String sourceTopic;
-    private String sinkTopic = "average-of-transactions";
+    private String sinkTopic = "rounded-transactions";
 
-
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(KafkaStreamsJoinAggregate.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(KafkaStreamsMapValue.class);
     private static final Serde<String> STRING_SERDE = Serdes.String();
     private static final Serde<Payment> PAYMENT_SERDE = new SpecificAvroSerde<>();
 
-    public KafkaStreamsJoinAggregate(@Value("${spring.kafka.properties.schema.registry.url}") String schemaRegistry) {
+    public KafkaStreamsMapValue(@Value("${spring.kafka.properties.schema.registry.url}") String schemaRegistry) {
         Properties streamsConfiguration = new Properties();
         streamsConfiguration.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String());
         streamsConfiguration.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, SpecificAvroSerde.class);
@@ -42,9 +43,8 @@ public class KafkaStreamsJoinAggregate {
     @Autowired
     void buildPipeline(StreamsBuilder streamsBuilder) {
 
-        //Compute the total of all payments for every single customer and create a new schema containing the account information plus the total amount
+        //round up every amount in a payment to the next whole number (e.g. 12.20 --> 13.00)
 
-        
         LOGGER.info(String.valueOf(streamsBuilder.build().describe()));
     }
 

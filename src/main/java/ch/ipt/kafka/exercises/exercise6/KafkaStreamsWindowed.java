@@ -1,4 +1,4 @@
-package ch.ipt.kafka.exercise7;
+package ch.ipt.kafka.exercises.exercise6;
 
 import ch.ipt.kafka.clients.avro.Payment;
 import io.confluent.kafka.serializers.AbstractKafkaSchemaSerDeConfig;
@@ -18,7 +18,7 @@ import java.util.Properties;
 
 
 //@Component
-public class KafkaStreamsJoin {
+public class KafkaStreamsWindowed {
 
     @Value("${source-topic-transactions}")
     private String sourceTopic;
@@ -26,11 +26,11 @@ public class KafkaStreamsJoin {
 
 
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(KafkaStreamsJoin.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(KafkaStreamsWindowed.class);
     private static final Serde<String> STRING_SERDE = Serdes.String();
     private static final Serde<Payment> PAYMENT_SERDE = new SpecificAvroSerde<>();
 
-    public KafkaStreamsJoin(@Value("${spring.kafka.properties.schema.registry.url}") String schemaRegistry) {
+    public KafkaStreamsWindowed(@Value("${spring.kafka.properties.schema.registry.url}") String schemaRegistry) {
         Properties streamsConfiguration = new Properties();
         streamsConfiguration.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String());
         streamsConfiguration.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, SpecificAvroSerde.class);
@@ -42,7 +42,7 @@ public class KafkaStreamsJoin {
     @Autowired
     void buildPipeline(StreamsBuilder streamsBuilder) {
 
-        //filter all Payments for the customers with last name "Fischer"
+        //compute the average of all transactions in the last minute
 
         
         LOGGER.info(String.valueOf(streamsBuilder.build().describe()));

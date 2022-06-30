@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 /**
- * This class is only here to have a basic topology so the project is runable.
+ * This class is only here to have a basic topology so the project is runnable.
  */
 public class KafkaStreamsDefaultTopology {
 

@@ -1,10 +1,11 @@
-package ch.ipt.kafka.exercise2;
+package ch.ipt.kafka.exercises.exercise3;
 
 import ch.ipt.kafka.clients.avro.Payment;
 import io.confluent.kafka.serializers.AbstractKafkaSchemaSerDeConfig;
 import io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
+import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.kstream.Consumed;
@@ -21,18 +22,17 @@ import java.util.Properties;
 
 
 //@Component
-public class KafkaStreamsMapValue {
+public class KafkaStreamsGroupBy {
 
     @Value("${source-topic-transactions}")
     private String sourceTopic;
-    private String sinkTopic = "rounded-transactions";
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(KafkaStreamsMapValue.class);
+    private String sinkTopic = "grouped-transactions";
+    private static final Logger LOGGER = LoggerFactory.getLogger(KafkaStreamsGroupBy.class);
     private static final Serde<String> STRING_SERDE = Serdes.String();
+    private static final Serde<Long> LONG_SERDE = Serdes.Long();
     private static final Serde<Payment> PAYMENT_SERDE = new SpecificAvroSerde<>();
-    private static final double LIMIT = 500.00;
 
-    public KafkaStreamsMapValue(@Value("${spring.kafka.properties.schema.registry.url}") String schemaRegistry) {
+    public KafkaStreamsGroupBy(@Value("${spring.kafka.properties.schema.registry.url}") String schemaRegistry) {
         Properties streamsConfiguration = new Properties();
         streamsConfiguration.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String());
         streamsConfiguration.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, SpecificAvroSerde.class);
@@ -44,16 +44,7 @@ public class KafkaStreamsMapValue {
     @Autowired
     void buildPipeline(StreamsBuilder streamsBuilder) {
 
-        //round up every amount to the next whole number (e.g. 12.20 --> 13.00)
-
-        KStream<String, Payment> messageStream = streamsBuilder
-                .stream(sourceTopic, Consumed.with(STRING_SERDE, PAYMENT_SERDE))
-                .mapValues(value -> {
-                    value.setAmount(Math.ceil(value.getAmount()));
-                    return value;
-                })
-                .peek((key, payment) -> LOGGER.debug("Message: key={}, value={}", key, payment));
-        messageStream.to(sinkTopic, Produced.with(STRING_SERDE, PAYMENT_SERDE));
+        //count the number of payments grouped by the cardtype (e.g. "Debit": 12, "Credit": 27)
 
         LOGGER.info(String.valueOf(streamsBuilder.build().describe()));
     }
