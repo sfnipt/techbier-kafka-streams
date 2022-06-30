@@ -1,5 +1,5 @@
 {
-  "namespace": "ch.ipt.kafka.clients.avro",
+  "namespace": "ch.ipt.kafka.techbier",
   "type": "record",
   "name": "Payment",
   "fields": [
