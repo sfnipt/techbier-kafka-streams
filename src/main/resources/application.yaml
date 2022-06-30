@@ -1,34 +1,50 @@
 
+# Kafka Config
+KAFKA_KEY: secret
+KAFKA_SECRET: secret
+
+# Schema Registry Config
+SR_API_KEY: secret
+SR_API_SECRET: secret
+
+# Initials for app-id
+INITIALS: ${USER}
+
 spring:
   kafka:
     bootstrap-servers: pkc-lzoyy.europe-west6.gcp.confluent.cloud:9092
+
+    streams:
+      application-id: techbier-2022-${INITIALS}
+      properties:
+        default.value.serde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
+        default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+
     properties:
       security.protocol: SASL_SSL
-      sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule   required username=''   password='';
+      sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule   required username='${KAFKA_KEY}'   password='${KAFKA_SECRET}';
       sasl.mechanism: PLAIN
-  # Required for correctness in Apache Kafka clients prior to 2.6
+
       client.dns.lookup: use_all_dns_ips
       session.timeout.ms: 45000
-      acks: all
 
-  # Required connection configs for Confluent Cloud Schema Registry
-      schema.registry.url: ${SR_ENDPOINT}
+      # Required connection configs for Confluent Cloud Schema Registry
+      schema.registry.url: https://psrc-l7opw.europe-west3.gcp.confluent.cloud
       basic.auth.credentials.source: USER_INFO
       basic.auth.user.info: ${SR_API_KEY}:${SR_API_SECRET}
+
     producer:
       value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+
     consumer:
       value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        specific.avro.reader: true
 
-
-initials: sfn
 source-topic-transactions: transactions
 source-topic-accounts: accounts
-
-SR_API_KEY:
-SR_API_SECRET:
-SR_ENDPOINT: https://psrc-l7opw.europe-west3.gcp.confluent.cloud
 
 
