@@ -35,15 +35,21 @@ public class KafkaStreamsSplitterSolution {
         stream.split()
                 .branch(
                         (key, value) -> value.getCardType().toString().equals("Debit"),
-                        Branched.withConsumer(s -> s.to(debitSinkTopic))
+                        Branched.withConsumer(s -> s
+                                .peek((key, payment) -> LOGGER.info("Debit Message: key={}, value={}", key, payment))
+                                .to(debitSinkTopic))
                 )
                 .branch(
                         (key, value) -> value.getCardType().toString().equals("Credit"),
-                        Branched.withConsumer(s -> s.to(creditSinkTopic))
+                        Branched.withConsumer(s -> s
+                                .peek((key, payment) -> LOGGER.info("Credit Message: key={}, value={}", key, payment))
+                                .to(creditSinkTopic))
                 )
                 .branch(
                         (key, value) -> true, //catch unknown events
-                        Branched.withConsumer(s -> s.to(undefinedSinkTopic))
+                        Branched.withConsumer(s -> s
+                                .peek((key, payment) -> LOGGER.info("Unknow Message: key={}, value={}", key, payment))
+                                .to(undefinedSinkTopic))
                 );
 
         LOGGER.info(String.valueOf(streamsBuilder.build().describe()));
