@@ -8,7 +8,7 @@ import javax.annotation.PostConstruct;
 import java.util.Arrays;
 
 //This class is only needed to produce data. probably someone else is already producing data
-@Configuration
+//@Configuration
 public class AccountProducer {
 
     @Value("${source-topic-accounts}")
