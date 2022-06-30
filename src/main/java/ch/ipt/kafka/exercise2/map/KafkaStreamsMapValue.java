@@ -18,14 +18,13 @@ public class KafkaStreamsMapValue {
     @Value("${INITIALS}")
     private String initial;
 
-    private String sinkTopic = "rounded-transactions-" + initial;
-
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaStreamsMapValue.class);
 
     private static final double LIMIT = 500.00;
 
     @Autowired
     void buildPipeline(StreamsBuilder streamsBuilder) {
+        String sinkTopic = "rounded-transactions-" + initial;
 
         //round up every amount to the next whole number (e.g. 12.20 --> 13.00)
 

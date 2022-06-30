@@ -16,12 +16,11 @@ public class KafkaStreamsWindowedSolution {
     @Value("${INITIALS}")
     private String initial;
 
-    private String sinkTopic = "average-of-transactions-" + initial;
-
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaStreamsWindowedSolution.class);
 
     @Autowired
     void buildPipeline(StreamsBuilder streamsBuilder) {
+        String sinkTopic = "average-of-transactions-" + initial;
 
         //compute the average of all transactions in the last minute
 

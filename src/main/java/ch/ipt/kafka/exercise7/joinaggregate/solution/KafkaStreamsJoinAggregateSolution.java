@@ -16,14 +16,14 @@ public class KafkaStreamsJoinAggregateSolution {
     @Value("${INITIALS}")
     private String initial;
 
-    private String sinkTopic = "average-of-transactions-" + initial;
-
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaStreamsJoinAggregateSolution.class);
 
     @Autowired
     void buildPipeline(StreamsBuilder streamsBuilder) {
+        String sinkTopic = "average-of-transactions-" + initial;
 
         //Compute the total of all payments for every single customer and create a new schema containing the account information plus the total amount
+
         //TODO...
 
         LOGGER.info(String.valueOf(streamsBuilder.build().describe()));

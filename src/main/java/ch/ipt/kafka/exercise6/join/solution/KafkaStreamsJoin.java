@@ -16,12 +16,11 @@ public class KafkaStreamsJoin {
     @Value("${INITIALS}")
     private String initial;
 
-    private String sinkTopic = "average-of-transactions-" + initial;
-
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaStreamsJoin.class);
 
     @Autowired
     void buildPipeline(StreamsBuilder streamsBuilder) {
+        String sinkTopic = "average-of-transactions-" + initial;
 
         //filter all Payments for the customers with last name "Fischer"
 

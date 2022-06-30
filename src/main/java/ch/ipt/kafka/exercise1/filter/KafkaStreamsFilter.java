@@ -18,13 +18,12 @@ public class KafkaStreamsFilter {
     @Value("${INITIALS}")
     private String initial;
 
-    private String sinkTopic = "filtered-transactions-" + initial;
-
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaStreamsFilter.class);
     private static final double LIMIT = 500.00;
 
     @Autowired
     void buildPipeline(StreamsBuilder streamsBuilder) {
+        String sinkTopic = "filtered-transactions-" + initial;
 
         //implement a filter which only sends payments over 500.- to a sink topic
 

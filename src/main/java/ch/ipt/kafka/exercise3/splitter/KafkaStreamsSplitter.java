@@ -18,14 +18,13 @@ public class KafkaStreamsSplitter {
     @Value("${INITIALS}")
     private String initial;
 
-    private String creditSinkTopic = "credit-transactions-" + initial;
-    private String debitSinkTopic = "debit-transactions-" + initial;
-    private String undefinedSinkTopic = "undefined-transactions-" + initial;
-
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaStreamsSplitter.class);
 
     @Autowired
     void buildPipeline(StreamsBuilder streamsBuilder) {
+        String creditSinkTopic = "credit-transactions-" + initial;
+        String debitSinkTopic = "debit-transactions-" + initial;
+        String undefinedSinkTopic = "undefined-transactions-" + initial;
 
         //split the topic in two different sink topics: one for debit payments (into debit-transactions) and one for credit transactions (credit-transactions).
 
