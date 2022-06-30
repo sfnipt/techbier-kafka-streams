@@ -22,8 +22,9 @@ public class KafkaStreamsJoinAggregateSolution {
     void buildPipeline(StreamsBuilder streamsBuilder) {
         String sinkTopic = "average-of-transactions-" + initial;
 
-        //Compute the total of all payments for every single customer and create a new schema containing the account information plus the total amount
+        //Compute the total of all payments for every single customer and create a new schema containing the account information plus the sum of the transactions
 
+        // e.g. Customer: x, name: Fischer, credit transaction: xxx chf, debit transaction: yyy chf
         //TODO...
 
         LOGGER.info(String.valueOf(streamsBuilder.build().describe()));

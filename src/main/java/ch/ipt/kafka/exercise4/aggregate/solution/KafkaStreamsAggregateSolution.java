@@ -22,7 +22,7 @@ public class KafkaStreamsAggregateSolution {
     void buildPipeline(StreamsBuilder streamsBuilder) {
         String sinkTopic = "average-of-transactions-" + initial;
 
-        //compute the average of all transactions
+        //compute the average of all transactions per account
 
         //TODO
 

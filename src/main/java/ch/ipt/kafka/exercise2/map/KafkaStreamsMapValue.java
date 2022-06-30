@@ -20,8 +20,6 @@ public class KafkaStreamsMapValue {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaStreamsMapValue.class);
 
-    private static final double LIMIT = 500.00;
-
     @Autowired
     void buildPipeline(StreamsBuilder streamsBuilder) {
         String sinkTopic = "rounded-transactions-" + initial;
