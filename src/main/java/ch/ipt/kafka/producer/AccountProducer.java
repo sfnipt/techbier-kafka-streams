@@ -7,7 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
 
-//@Configuration
+//This class is only needed to produce data. probably someone else is already producing data
+@Configuration
 public class AccountProducer {
 
     @Value("${source-topic-accounts}")
