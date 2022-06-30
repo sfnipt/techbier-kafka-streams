@@ -9,16 +9,16 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>ch.ipt.kafka</groupId>
-	<artifactId>clients</artifactId>
+	<artifactId>techbier-kafka-streams</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>clients</name>
-	<description>Spring Boot Kafka Clients</description>
+	<name>techbier-kafka-streams</name>
+	<description>Spring Boot App for TechBier with kafka-streams </description>
 
 
 	<properties>
-		<java.version>13</java.version>
+		<java.version>11</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<avro.version>1.11.0</avro.version>
+		<avro.version>1.10.2</avro.version>
 		<io.confluent.clients.version>7.1.1</io.confluent.clients.version>
 	</properties>
 
@@ -54,9 +54,9 @@
 			<version>${io.confluent.clients.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.kafka</groupId>
-			<artifactId>kafka-clients</artifactId>
-			<version>7.1.1-ccs</version>
+			<groupId>org.apache.avro</groupId>
+			<artifactId>avro</artifactId>
+			<version>1.10.2</version>
 		</dependency>
 
 		<dependency>
