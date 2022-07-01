@@ -1,6 +1,6 @@
 package ch.ipt.kafka.exercise1.filter;
 
-import ch.ipt.kafka.clients.avro.Payment;
+import ch.ipt.kafka.techbier.Payment;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.kstream.KStream;
 import org.slf4j.Logger;

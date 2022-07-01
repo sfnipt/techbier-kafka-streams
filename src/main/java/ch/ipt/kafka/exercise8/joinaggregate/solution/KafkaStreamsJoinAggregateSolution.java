@@ -1,4 +1,4 @@
-package ch.ipt.kafka.exercise5.windows.solution;
+package ch.ipt.kafka.exercise8.joinaggregate.solution;
 
 import org.apache.kafka.streams.StreamsBuilder;
 import org.slf4j.Logger;
@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 
 //@Component
-public class KafkaStreamsWindowedSolution {
+public class KafkaStreamsJoinAggregateSolution {
 
     @Value("${source-topic-transactions}")
     private String sourceTopic;
@@ -16,15 +16,16 @@ public class KafkaStreamsWindowedSolution {
     @Value("${INITIALS}")
     private String initial;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(KafkaStreamsWindowedSolution.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(KafkaStreamsJoinAggregateSolution.class);
 
     @Autowired
     void buildPipeline(StreamsBuilder streamsBuilder) {
         String sinkTopic = "average-of-transactions-" + initial;
 
-        //compute the average of all transactions in the last minute
+        //Compute the total of all payments for every single customer and create a new schema containing the account information plus the sum of the transactions
 
-        //TODO
+        // e.g. Customer: x, name: Fischer, credit transaction: xxx chf, debit transaction: yyy chf
+        //TODO...
 
         LOGGER.info(String.valueOf(streamsBuilder.build().describe()));
     }

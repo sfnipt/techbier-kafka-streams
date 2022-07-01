@@ -1,4 +1,4 @@
-package ch.ipt.kafka.exercise6.join.solution;
+package ch.ipt.kafka.exercise7.join.solution;
 
 import org.apache.kafka.streams.StreamsBuilder;
 import org.slf4j.Logger;

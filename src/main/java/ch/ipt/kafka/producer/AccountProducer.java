@@ -1,6 +1,6 @@
 package ch.ipt.kafka.producer;
 
-import ch.ipt.kafka.clients.avro.Account;
+import ch.ipt.kafka.techbier.Account;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 

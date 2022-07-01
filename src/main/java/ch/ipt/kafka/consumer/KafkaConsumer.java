@@ -1,7 +1,8 @@
 package ch.ipt.kafka.consumer;
 
-import ch.ipt.kafka.clients.avro.Account;
-import ch.ipt.kafka.clients.avro.Payment;
+
+import ch.ipt.kafka.techbier.Account;
+import ch.ipt.kafka.techbier.Payment;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

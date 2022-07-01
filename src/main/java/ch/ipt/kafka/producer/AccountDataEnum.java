@@ -1,7 +1,8 @@
 package ch.ipt.kafka.producer;
 
+import ch.ipt.kafka.techbier.Account;
+
 import java.security.SecureRandom;
-import ch.ipt.kafka.clients.avro.Account;
 
 public enum AccountDataEnum {
 

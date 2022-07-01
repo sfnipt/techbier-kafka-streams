@@ -1,6 +1,6 @@
 package ch.ipt.kafka.exercise3.splitter.solution;
 
-import ch.ipt.kafka.clients.avro.Payment;
+import ch.ipt.kafka.techbier.Payment;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.kstream.Branched;
 import org.apache.kafka.streams.kstream.KStream;
@@ -8,9 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 
-//@Component
+@Component
 public class KafkaStreamsSplitterSolution {
 
     @Value("${source-topic-transactions}")

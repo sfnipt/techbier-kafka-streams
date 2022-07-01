@@ -1,8 +1,7 @@
 package ch.ipt.kafka.producer;
 
-
-import ch.ipt.kafka.clients.avro.Account;
-import ch.ipt.kafka.clients.avro.Payment;
+import ch.ipt.kafka.techbier.Account;
+import ch.ipt.kafka.techbier.Payment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
