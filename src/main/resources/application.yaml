@@ -16,6 +16,8 @@ spring:
 
     streams:
       application-id: techbier-2022-${INITIALS}
+      state-dir: ${user.dir}/target/state
+
       properties:
         default.value.serde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
         default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
