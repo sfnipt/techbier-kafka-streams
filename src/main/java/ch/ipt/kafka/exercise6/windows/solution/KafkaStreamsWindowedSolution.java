@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 
@@ -32,9 +31,9 @@ public class KafkaStreamsWindowedSolution {
 
         TimeWindows window = TimeWindows.ofSizeWithNoGrace(Duration.ofMinutes(1));
         stream
-                .groupBy((k, v) -> v.getCardType().toString())
+                .groupBy((k, v) -> v.getCardType().toString(), Grouped.as("transactions-last-minute-by-card"))
                 .windowedBy(window)
-                .count(Materialized.as("transactions-last-minute-count"))
+                .count(Named.as("transactions-last-minute-count"))
                 .toStream()
                 .peek((key, value) -> LOGGER.info("Total of transactions in the last minute: key={}, value={}", key, value))
                 .to(sinkTopic, Produced.keySerde(WindowedSerdes.timeWindowedSerdeFrom(String.class, window.sizeMs)));

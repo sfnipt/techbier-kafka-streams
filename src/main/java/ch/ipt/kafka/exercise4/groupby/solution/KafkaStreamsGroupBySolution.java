@@ -3,14 +3,12 @@ package ch.ipt.kafka.exercise4.groupby.solution;
 import ch.ipt.kafka.techbier.Payment;
 import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsBuilder;
+import org.apache.kafka.streams.kstream.Grouped;
 import org.apache.kafka.streams.kstream.KStream;
-import org.apache.kafka.streams.kstream.Materialized;
-import org.apache.kafka.streams.kstream.Produced;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 
 //@Component
@@ -35,11 +33,12 @@ public class KafkaStreamsGroupBySolution {
         stream.map((key, value) -> new KeyValue<>(
                         value.getCardType().toString(), value
                 ))
-                .groupByKey()
-                .count(Materialized.as("grouped-transactions-count"))
+                .groupByKey(Grouped.as("grouped-transactions-grouped"))
+                .count()
                 .toStream()
-                .peek((key, value) -> LOGGER.info("Grouped Transactions: key={}, value={}", key, value))
-                .to(sinkTopic);
+                .peek((key, value) -> LOGGER.info("Grouped Transactions: key={}, value={}", key, value));
+
+        stream.to(sinkTopic);
 
         LOGGER.info(String.valueOf(streamsBuilder.build().describe()));
     }

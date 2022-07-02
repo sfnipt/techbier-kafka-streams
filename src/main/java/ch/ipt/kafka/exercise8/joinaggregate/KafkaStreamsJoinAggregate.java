@@ -1,9 +1,11 @@
-package ch.ipt.kafka.exercise7.join.solution;
+package ch.ipt.kafka.exercise8.joinaggregate;
 
 import ch.ipt.kafka.techbier.Account;
+import ch.ipt.kafka.techbier.AccountBalance;
 import ch.ipt.kafka.techbier.AccountPayment;
 import ch.ipt.kafka.techbier.Payment;
 import org.apache.kafka.streams.StreamsBuilder;
+import org.apache.kafka.streams.kstream.Grouped;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.KTable;
 import org.apache.kafka.streams.kstream.TableJoined;
@@ -14,7 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 
 //@Component
-public class KafkaStreamsJoinSolution {
+public class KafkaStreamsJoinAggregate {
 
     @Value("${source-topic-transactions}")
     private String sourceTransactions;
@@ -24,27 +26,30 @@ public class KafkaStreamsJoinSolution {
     @Value("${INITIALS}")
     private String initial;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(KafkaStreamsJoinSolution.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(KafkaStreamsJoinAggregate.class);
 
     @Autowired
     void buildPipeline(StreamsBuilder streamsBuilder) {
-        String sinkTopic = "filtered-join-" + initial;
+        String sinkTopic = "sum-transactions-per-account-" + initial;
 
-        // filter all Payments for the customers with last name "Fischer"
-        // Hint look up fk-join
-
+        //Compute the total of all payments for every single customer and create a new schema containing the account information plus the sum of the transactions
         KStream<String, Payment> transactionStream = streamsBuilder.stream(sourceTransactions);
         KStream<String, Account> accountStream = streamsBuilder.stream(sourceAccounts);
 
-        KTable<String, Account> accountTable = accountStream.toTable();
-        transactionStream.toTable()
-                .join(accountTable, t -> t.getAccountId().toString(), this::joinAccountTransaction, TableJoined.as("filtered-join"))
-                .toStream()
-                .filter((k, v) -> "Fischer".equals(v.getLastname().toString()))
-                .peek((key, value) -> LOGGER.info("Message of filtered join: key={}, value={}", key, value))
-                .to(sinkTopic);
+        //TODO
 
         LOGGER.info(String.valueOf(streamsBuilder.build().describe()));
+    }
+
+    private AccountBalance updateBalance(AccountPayment payment, AccountBalance current) {
+        current.setAccountId(payment.getAccountId());
+        current.setSurname(payment.getSurname());
+        current.setLastname(payment.getLastname());
+        current.setStreet(payment.getStreet());
+        current.setCity(payment.getCity());
+        current.setBalance(current.getBalance() + payment.getAmount());
+
+        return current;
     }
 
     private AccountPayment joinAccountTransaction(Payment payment, Account account) {
@@ -58,5 +63,6 @@ public class KafkaStreamsJoinSolution {
                 payment.getCardType(),
                 payment.getAmount());
     }
+
 
 }
