@@ -10,8 +10,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableKafkaStreams
 public class TechBierKafkaStreamsApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(TechBierKafkaStreamsApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(TechBierKafkaStreamsApplication.class, args);
+    }
 
 }

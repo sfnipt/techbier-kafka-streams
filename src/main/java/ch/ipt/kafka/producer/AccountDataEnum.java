@@ -61,11 +61,11 @@ public enum AccountDataEnum {
         return pan;
     }
 
-    public static AccountDataEnum getRandomEnum(){
+    public static AccountDataEnum getRandomEnum() {
         return AccountDataEnum.values()[new SecureRandom().nextInt(AccountDataEnum.values().length)];
     }
 
-    public static Account getAccount(AccountDataEnum accountEnum){
+    public static Account getAccount(AccountDataEnum accountEnum) {
         return new Account(accountEnum.getAccountId(), accountEnum.getSurname(), accountEnum.getLastname(), accountEnum.getStreet(), accountEnum.getCity());
     }
 

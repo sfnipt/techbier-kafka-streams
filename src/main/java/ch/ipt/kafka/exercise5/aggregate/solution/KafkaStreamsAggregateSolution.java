@@ -3,7 +3,6 @@ package ch.ipt.kafka.exercise5.aggregate.solution;
 import ch.ipt.kafka.techbier.Payment;
 import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsBuilder;
-import org.apache.kafka.streams.kstream.Grouped;
 import org.apache.kafka.streams.kstream.KStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +30,7 @@ public class KafkaStreamsAggregateSolution {
         KStream<String, Payment> groupedStream = streamsBuilder.stream(sourceTopic);
 
         groupedStream.map((key, value) -> new KeyValue<>(value.getAccountId().toString(), value))
-                .groupByKey(Grouped.as("total-of-transactions-by-accountid"))
+                .groupByKey()
                 .aggregate(
                         () -> 0.0, // Initial Value
                         (key, payment, total) -> total + payment.getAmount()

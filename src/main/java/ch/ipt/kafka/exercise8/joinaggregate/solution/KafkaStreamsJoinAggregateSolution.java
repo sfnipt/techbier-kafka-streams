@@ -4,16 +4,13 @@ import ch.ipt.kafka.techbier.Account;
 import ch.ipt.kafka.techbier.AccountBalance;
 import ch.ipt.kafka.techbier.AccountPayment;
 import ch.ipt.kafka.techbier.Payment;
-import org.apache.kafka.common.serialization.Serdes;
-import org.apache.kafka.common.utils.Bytes;
 import org.apache.kafka.streams.StreamsBuilder;
-import org.apache.kafka.streams.kstream.*;
-import org.apache.kafka.streams.state.KeyValueStore;
+import org.apache.kafka.streams.kstream.KStream;
+import org.apache.kafka.streams.kstream.KTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 
 //@Component
@@ -39,9 +36,9 @@ public class KafkaStreamsJoinAggregateSolution {
 
         KTable<String, Account> accountTable = accountStream.toTable();
         transactionStream.toTable()
-                .join(accountTable, t -> t.getAccountId().toString(), this::joinAccountTransaction, TableJoined.as("sum-transactions-per-account-join"))
+                .join(accountTable, t -> t.getAccountId().toString(), this::joinAccountTransaction)
                 .toStream()
-                .groupBy((k,v) -> v.getAccountId().toString(), Grouped.as("sum-transactions-per-account-by-account"))
+                .groupBy((k, v) -> v.getAccountId().toString())
                 .aggregate(
                         AccountBalance::new, // Initial Value
                         (key, payment, current) -> updateBalance(payment, current)

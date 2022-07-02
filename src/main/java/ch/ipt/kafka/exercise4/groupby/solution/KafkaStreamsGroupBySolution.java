@@ -1,9 +1,7 @@
 package ch.ipt.kafka.exercise4.groupby.solution;
 
 import ch.ipt.kafka.techbier.Payment;
-import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsBuilder;
-import org.apache.kafka.streams.kstream.Grouped;
 import org.apache.kafka.streams.kstream.KStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,10 +28,7 @@ public class KafkaStreamsGroupBySolution {
 
         KStream<String, Payment> stream = streamsBuilder.stream(sourceTopic);
 
-        stream.map((key, value) -> new KeyValue<>(
-                        value.getCardType().toString(), value
-                ))
-                .groupByKey(Grouped.as("grouped-transactions-grouped"))
+        stream.groupBy((k, v) -> v.getCardType().toString())
                 .count()
                 .toStream()
                 .peek((key, value) -> LOGGER.info("Grouped Transactions: key={}, value={}", key, value));

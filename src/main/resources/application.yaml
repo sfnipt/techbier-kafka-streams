@@ -1,4 +1,3 @@
-
 # Kafka Config
 KAFKA_KEY: secret
 KAFKA_SECRET: secret

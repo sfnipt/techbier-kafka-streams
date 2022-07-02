@@ -23,7 +23,7 @@ public class KafkaProducer {
 
     public void sendPayment(Payment message, String topic) {
         ListenableFuture<SendResult<String, Payment>> future =
-                kafkaTemplatePayment.send(topic, message.getId().toString() , message);
+                kafkaTemplatePayment.send(topic, message.getId().toString(), message);
 
         future.addCallback(new ListenableFutureCallback<>() {
 
@@ -45,7 +45,7 @@ public class KafkaProducer {
 
     public void sendAccount(Account message, String topic) {
         ListenableFuture<SendResult<String, Account>> future =
-                kafkaTemplateAccount.send(topic, message.getAccountId().toString() , message);
+                kafkaTemplateAccount.send(topic, message.getAccountId().toString(), message);
 
         future.addCallback(new ListenableFutureCallback<>() {
 

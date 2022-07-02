@@ -2,7 +2,6 @@ package ch.ipt.kafka.producer;
 
 import ch.ipt.kafka.techbier.Account;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
@@ -23,10 +22,10 @@ public class AccountProducer {
     public void sendAccounts() {
         Arrays.asList(AccountDataEnum.values())
                 .forEach(
-                        accountEnum ->  {
+                        accountEnum -> {
                             Account account = AccountDataEnum.getAccount(accountEnum);
                             kafkaProducer.sendAccount(account, sourceTopic);
-                });
+                        });
     }
 
 }
