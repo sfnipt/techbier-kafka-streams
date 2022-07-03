@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import static ch.ipt.kafka.config.KafkaStreamsDefaultTopology.EXERCISE_5_TOPIC;
+
 
 //@Component
 public class KafkaStreamsAggregate {
@@ -22,7 +24,7 @@ public class KafkaStreamsAggregate {
 
     @Autowired
     void buildPipeline(StreamsBuilder streamsBuilder) {
-        String sinkTopic = "total-of-transactions-" + initial;
+        String sinkTopic = EXERCISE_5_TOPIC + initial;
 
         //compute the total of all transactions per account (e.g. account x : 1632.45, account y: 256.00, ...)
         KStream<String, Payment> groupedStream = streamsBuilder.stream(sourceTopic);

@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import static ch.ipt.kafka.config.KafkaStreamsDefaultTopology.EXERCISE_7_TOPIC;
+
 
 //@Component
 public class KafkaStreamsJoin {
@@ -26,7 +28,7 @@ public class KafkaStreamsJoin {
 
     @Autowired
     void buildPipeline(StreamsBuilder streamsBuilder) {
-        String sinkTopic = "filtered-join-" + initial;
+        String sinkTopic = EXERCISE_7_TOPIC + initial;
 
         // filter all Payments for the customers with last name "Fischer"
         // Hint look up fk-join

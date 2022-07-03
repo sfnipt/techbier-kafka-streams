@@ -9,9 +9,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import static ch.ipt.kafka.config.KafkaStreamsDefaultTopology.*;
+
 
 //@Component
 public class KafkaStreamsSplitterSolution {
+
 
     @Value("${source-topic-transactions}")
     private String sourceTopic;
@@ -23,9 +26,9 @@ public class KafkaStreamsSplitterSolution {
 
     @Autowired
     void buildPipeline(StreamsBuilder streamsBuilder) {
-        String creditSinkTopic = "credit-transactions-" + initial;
-        String debitSinkTopic = "debit-transactions-" + initial;
-        String undefinedSinkTopic = "undefined-transactions-" + initial;
+        String creditSinkTopic = EXERCISE_3_TOPIC_CREDIT + initial;
+        String debitSinkTopic = EXERCISE_3_TOPIC_DEBIT + initial;
+        String undefinedSinkTopic = EXERCISE_3_TOPIC_UNKNOWN + initial;
 
         //split the topic in two different sink topics: one for debit payments (into debit-transactions) and one for credit transactions (credit-transactions).
 

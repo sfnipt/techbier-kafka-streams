@@ -8,9 +8,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import static ch.ipt.kafka.config.KafkaStreamsDefaultTopology.EXERCISE_1_TOPIC;
+
 
 //@Component
 public class KafkaStreamsFilterSolution {
+
 
     @Value("${source-topic-transactions}")
     private String sourceTopic;
@@ -23,7 +26,7 @@ public class KafkaStreamsFilterSolution {
 
     @Autowired
     void buildPipeline(StreamsBuilder streamsBuilder) {
-        String sinkTopic = "filtered-transactions-" + initial;
+        String sinkTopic = EXERCISE_1_TOPIC + initial;
 
         //implement a filter which only sends payments over 500.- to a sink topic
 

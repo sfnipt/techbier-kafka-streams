@@ -8,9 +8,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import static ch.ipt.kafka.config.KafkaStreamsDefaultTopology.EXERCISE_2_TOPIC;
+
 
 //@Component
 public class KafkaStreamsMapValueSolution {
+
 
     @Value("${source-topic-transactions}")
     private String sourceTopic;
@@ -22,7 +25,7 @@ public class KafkaStreamsMapValueSolution {
 
     @Autowired
     void buildPipeline(StreamsBuilder streamsBuilder) {
-        String sinkTopic = "rounded-transactions-" + initial;
+        String sinkTopic = EXERCISE_2_TOPIC + initial;
 
         //round up every amount to the next whole number (e.g. 12.20 --> 13.00)
 

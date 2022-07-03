@@ -4,14 +4,18 @@ import ch.ipt.kafka.techbier.Payment;
 import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.kstream.KStream;
+import org.apache.kafka.streams.kstream.Materialized;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import static ch.ipt.kafka.config.KafkaStreamsDefaultTopology.EXERCISE_5_TOPIC;
+
 
 //@Component
 public class KafkaStreamsAggregateSolution {
+
 
     @Value("${source-topic-transactions}")
     private String sourceTopic;
@@ -23,7 +27,7 @@ public class KafkaStreamsAggregateSolution {
 
     @Autowired
     void buildPipeline(StreamsBuilder streamsBuilder) {
-        String sinkTopic = "total-of-transactions-" + initial;
+        String sinkTopic = EXERCISE_5_TOPIC + initial;
 
         //compute the total of all transactions per account (e.g. account x : 1632.45, account y: 256.00, ...)
 
@@ -33,12 +37,12 @@ public class KafkaStreamsAggregateSolution {
                 .groupByKey()
                 .aggregate(
                         () -> 0.0, // Initial Value
-                        (key, payment, total) -> total + payment.getAmount()
+                        (key, payment, total) -> total + payment.getAmount(),
+                        Materialized.as(EXERCISE_5_TOPIC + "aggregate")
                 )
                 .toStream()
-                .peek((key, value) -> LOGGER.info("Total of transactions: key={}, value={}", key, value));
-
-        groupedStream.to(sinkTopic);
+                .peek((key, value) -> LOGGER.info("Total of transactions: key={}, value={}", key, value))
+                .to(sinkTopic);
 
         LOGGER.info(String.valueOf(streamsBuilder.build().describe()));
     }

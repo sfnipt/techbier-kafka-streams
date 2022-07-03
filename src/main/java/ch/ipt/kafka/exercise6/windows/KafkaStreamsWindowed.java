@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 
 import java.time.Duration;
 
+import static ch.ipt.kafka.config.KafkaStreamsDefaultTopology.EXERCISE_6_TOPIC;
+
 
 //@Component
 public class KafkaStreamsWindowed {
@@ -25,7 +27,7 @@ public class KafkaStreamsWindowed {
 
     @Autowired
     void buildPipeline(StreamsBuilder streamsBuilder) {
-        String sinkTopic = "transactions-last-minute-" + initial;
+        String sinkTopic = EXERCISE_6_TOPIC + initial;
 
         //compute the number of transactions per card type within the last minute
         KStream<String, Payment> stream = streamsBuilder.stream(sourceTopic);

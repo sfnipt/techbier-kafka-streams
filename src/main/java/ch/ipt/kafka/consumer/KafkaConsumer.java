@@ -7,10 +7,11 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Component;
 
 
 //This class is only needed when we want to consume messages directly
-//@Component
+@Component
 public class KafkaConsumer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaConsumer.class);
@@ -28,6 +29,6 @@ public class KafkaConsumer {
     public void receiveAccountMessage(ConsumerRecord<String, Account> consumerRecord) {
         String key = consumerRecord.key();
         Account value = consumerRecord.value();
-        LOGGER.info("received credit message: key={}, value={}", key, value);
+        LOGGER.info("received account message: key={}, value={}", key, value);
     }
 }

@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import static ch.ipt.kafka.config.KafkaStreamsDefaultTopology.EXERCISE_4_TOPIC;
+
 
 //@Component
 public class KafkaStreamsGroupBy {
@@ -22,7 +24,7 @@ public class KafkaStreamsGroupBy {
 
     @Autowired
     void buildPipeline(StreamsBuilder streamsBuilder) {
-        String sinkTopic = "grouped-transactions-" + initial;
+        String sinkTopic = EXERCISE_4_TOPIC + initial;
 
         //count the number of payments grouped by the cardtype (e.g. "Debit": 12, "Credit": 27)
 
