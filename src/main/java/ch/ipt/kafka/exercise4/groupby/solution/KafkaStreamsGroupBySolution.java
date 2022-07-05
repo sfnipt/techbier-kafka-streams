@@ -37,9 +37,8 @@ public class KafkaStreamsGroupBySolution {
                 .groupByKey()
                 .count()
                 .toStream()
-                .peek((key, value) -> LOGGER.info("Grouped Transactions: key={}, value={}", key, value));
-
-        stream.to(sinkTopic);
+                .peek((key, value) -> LOGGER.info("Grouped Transactions: key={}, value={}", key, value))
+                .to(sinkTopic);
 
         LOGGER.info(String.valueOf(streamsBuilder.build().describe()));
     }

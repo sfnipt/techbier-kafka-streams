@@ -31,8 +31,8 @@ public class KafkaStreamsFilterSolution {
 
         stream
                 .filter((key, payment) -> payment.getAmount() > LIMIT)
-                .peek((key, payment) -> LOGGER.info("Message: key={}, value={}", key, payment));
-        stream.to(sinkTopic);
+                .peek((key, payment) -> LOGGER.info("Message: key={}, value={}", key, payment))
+                .to(sinkTopic);
 
         LOGGER.info(String.valueOf(streamsBuilder.build().describe()));
     }

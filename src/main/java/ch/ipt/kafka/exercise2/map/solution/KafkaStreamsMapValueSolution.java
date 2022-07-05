@@ -32,8 +32,8 @@ public class KafkaStreamsMapValueSolution {
                     value.setAmount(Math.ceil(value.getAmount()));
                     return value;
                 })
-                .peek((key, payment) -> LOGGER.info("Message: key={}, value={}", key, payment));
-        stream.to(sinkTopic);
+                .peek((key, payment) -> LOGGER.info("Message: key={}, value={}", key, payment))
+                .to(sinkTopic);
 
         LOGGER.info(String.valueOf(streamsBuilder.build().describe()));
     }
