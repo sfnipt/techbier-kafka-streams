@@ -4,6 +4,7 @@ import ch.ipt.kafka.techbier.Payment;
 import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.kstream.KStream;
+import org.apache.kafka.streams.kstream.Materialized;
 import org.apache.kafka.streams.kstream.Produced;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +36,7 @@ public class KafkaStreamsGroupBySolution {
                         value.getCardType().toString(), value
                 ))
                 .groupByKey()
-                .count()
+                .count(Materialized.as("grouped-transactions-count"))
                 .toStream()
                 .peek((key, value) -> LOGGER.info("Grouped Transactions: key={}, value={}", key, value))
                 .to(sinkTopic);

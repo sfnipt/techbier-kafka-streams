@@ -6,6 +6,8 @@ import ch.ipt.kafka.techbier.Payment;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.KTable;
+import org.apache.kafka.streams.kstream.Materialized;
+import org.apache.kafka.streams.kstream.TableJoined;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +37,12 @@ public class KafkaStreamsJoinSolution {
         KStream<String, Payment> transactionStream = streamsBuilder.stream(sourceTransactions);
         KStream<String, Account> accountStream = streamsBuilder.stream(sourceAccounts);
 
-        KTable<String, Account> accountTable = accountStream.toTable();
-        transactionStream.toTable()
-                .join(accountTable, t -> t.getAccountId().toString(), this::joinAccountTransaction)
+        KTable<String, Account> accountTable = accountStream.toTable(Materialized.as("filtered-join-account-table"));
+        transactionStream.toTable(Materialized.as("filtered-join-payment-table"))
+                .join(accountTable, t -> t.getAccountId().toString(),
+                        this::joinAccountTransaction,
+                        TableJoined.as("filtered-join-join"),
+                        Materialized.as("filtered-join-mat"))
                 .toStream()
                 .filter((k, v) -> "Fischer".equals(v.getLastname().toString()))
                 .peek((key, value) -> LOGGER.info("Message of filtered join: key={}, value={}", key, value))

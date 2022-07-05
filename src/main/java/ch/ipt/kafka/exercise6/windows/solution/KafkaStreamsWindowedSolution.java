@@ -2,10 +2,7 @@ package ch.ipt.kafka.exercise6.windows.solution;
 
 import ch.ipt.kafka.techbier.Payment;
 import org.apache.kafka.streams.StreamsBuilder;
-import org.apache.kafka.streams.kstream.KStream;
-import org.apache.kafka.streams.kstream.Produced;
-import org.apache.kafka.streams.kstream.TimeWindows;
-import org.apache.kafka.streams.kstream.WindowedSerdes;
+import org.apache.kafka.streams.kstream.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +34,7 @@ public class KafkaStreamsWindowedSolution {
         stream
                 .groupBy((k, v) -> v.getCardType().toString())
                 .windowedBy(window)
-                .count()
+                .count(Materialized.as("transactions-last-minute-count"))
                 .toStream()
                 .peek((key, value) -> LOGGER.info("Total of transactions in the last minute: key={}, value={}", key, value))
                 .to(sinkTopic, Produced.keySerde(WindowedSerdes.timeWindowedSerdeFrom(String.class, window.sizeMs)));

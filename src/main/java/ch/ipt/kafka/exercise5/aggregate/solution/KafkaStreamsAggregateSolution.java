@@ -1,7 +1,6 @@
 package ch.ipt.kafka.exercise5.aggregate.solution;
 
 import ch.ipt.kafka.techbier.Payment;
-import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.kstream.KStream;
@@ -10,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 
 //@Component
@@ -36,7 +34,8 @@ public class KafkaStreamsAggregateSolution {
                 .groupByKey()
                 .aggregate(
                         () -> 0.0, // Initial Value
-                        (key, payment, total) -> total + payment.getAmount(), Materialized.with(Serdes.String(), Serdes.Double())
+                        (key, payment, total) -> total + payment.getAmount(),
+                        Materialized.as("total-of-transactions-aggregate")
                 )
                 .toStream()
                 .peek((key, value) -> LOGGER.info("Total of transactions: key={}, value={}", key, value));
