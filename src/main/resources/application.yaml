@@ -1,14 +1,13 @@
-
 # Kafka Config
-KAFKA_KEY: secret
-KAFKA_SECRET: secret
+KAFKA_KEY: "xxxxxxxxxxxxxxxx"
+KAFKA_SECRET: "xxxxxxxxxxxxxxxx"
 
 # Schema Registry Config
-SR_API_KEY: secret
-SR_API_SECRET: secret
+SR_API_KEY: "xxxxxxxxxxxxxxxx"
+SR_API_SECRET: "xxxxxxxxxxxxx"
 
 # Initials for app-id
-INITIALS: ${USER}
+INITIALS: xxx
 
 spring:
   kafka:
@@ -31,7 +30,7 @@ spring:
       session.timeout.ms: 45000
 
       # Required connection configs for Confluent Cloud Schema Registry
-      schema.registry.url: https://psrc-l7opw.europe-west3.gcp.confluent.cloud
+      schema.registry.url: https://psrc-kk5gg.europe-west3.gcp.confluent.cloud
       basic.auth.credentials.source: USER_INFO
       basic.auth.user.info: ${SR_API_KEY}:${SR_API_SECRET}
 
