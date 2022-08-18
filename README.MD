@@ -26,3 +26,12 @@ Kafka & Schema Registry Config findest du hier: https://docs.google.com/document
 ## 2. App starten
 
 Die Klasse `ch.ipt.kafka.TechBierKafkaStreamsApplication` starten
+
+# Redpanda
+Start Redpanda
+```
+cd src/main/resources/redpanda
+docker-compose up -d
+docker-compose logs -f
+```
+

@@ -37,6 +37,9 @@ public class KafkaStreamsDefaultTopology {
     @Value("${INITIALS}")
     private String initial;
 
+    @Value("${topic-replicas}")
+    private int replicas;
+
     @Bean
     KStream<String, Payment> buildPipeline(StreamsBuilder streamsBuilder) {
 
@@ -106,7 +109,7 @@ public class KafkaStreamsDefaultTopology {
     private NewTopic createTopic(String topicName) {
         return TopicBuilder.name(topicName)
                 .partitions(6)
-                .replicas(3)
+                .replicas(replicas)
                 .build();
     }
 }
