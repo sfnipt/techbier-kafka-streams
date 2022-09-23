@@ -8,30 +8,80 @@ mvn clean install
 
 # App starten
 
-## 1. Config setzen
-In `src/main/resources/application.yml` folgende Werte befüllen.
+Diese App produziert, konsumiert und verarbeitet Kafka Events. 
+
+Es gibt 3 Möglichkeiten wie diese App integriert werden kann:
+
+* Confluent Cloud
+* Lokaler Redpanda Cluster
+
+## Confluent Cloud
+
+1. Aktives Spring Boot Profile auf "confluent" setzen: [Anleitung IntelliJ](https://www.jetbrains.com/help/idea/run-debug-configuration-spring-boot.html#modify-options)
+
+2. In `src/main/resources/application-confluent.yml` folgende Werte befüllen.
+   * INITIALS (z.B. `PGR`)
+   * **Kafka Config:**
+     * KAFKA_KEY
+     * KAFKA_SECRET
+   
+   * **Schema Registry Config:**
+     * SR_API_KEY
+     * SR_API_SECRET
+
+   (Kafka & Schema Registry Config werden dir von CSU und DKN zur Verfügung gestellt.)
+
+3. Falls persönlicher Kafka Cluster verwendet wird:
+
+   Kafka Producer aktivieren
+   
+   In Klasse `ch.ipt.kafka.producer.PaymentProducer` & `ch.ipt.kafka.producer.AccountProducer` die `@Configuration` Annotation aktivieren.
 
 
-* INITIALS (z.B. `PGR`)
-* **Kafka Config:**
-  * KAFKA_KEY
-  * KAFKA_SECRET
+## Lokaler Redpanda Cluster
 
-* **Schema Registry Config:**
-  * SR_API_KEY
-  * SR_API_SECRET
+1. Redpanda starten (siehe unten)
+2. Redpanda Profil konfigurieren
 
-Kafka & Schema Registry Config findest du hier: https://docs.google.com/document/d/1aD0TRajzXd44wlis65wSfuIAWp0fm8aFiblbnYj5uIM/
+   In `src/main/resources/application-redpanda.yml` folgende Werte befüllen.
+   * INITIALS (z.B. `PGR-redpanda`)  
 
-## 2. App starten
+3. Redpanda Profil aktivieren
 
-Die Klasse `ch.ipt.kafka.TechBierKafkaStreamsApplication` starten
+   Aktives Spring Boot Profile auf "redpanda" setzen: [Anleitung IntelliJ](https://www.jetbrains.com/help/idea/run-debug-configuration-spring-boot.html#modify-options)
 
-# Redpanda
-Start Redpanda
+4. Kafka Producer aktivieren
+
+   In Klasse `ch.ipt.kafka.producer.PaymentProducer` & `ch.ipt.kafka.producer.AccountProducer` die `@Configuration` Annotation aktivieren.
+
+
+### Start Redpanda
 ```
 cd src/main/resources/redpanda
 docker-compose up -d
 docker-compose logs -f
 ```
+
+### Redpanda UI
+Auf http://localhost:8080 findest du alle Informationen zu deiner Redpanda Instanz. 
+
+### Redpanda zurücksetzen
+```
+cd src/main/resources/redpanda
+docker-compose kill
+docker-compose rm
+```
+
+## 2. App starten
+
+Die Klasse `ch.ipt.kafka.TechBierKafkaStreamsApplication` starten (korrektes Intellij Profil setzen)
+
+Du solltest jetzt in den Topics `accounts`& `transactions` messages sehen. Du kannst jetzt auf diese reagieren.
+
+## 2. App erweitern
+
+Aktivere die jeweiligen Klassen in `exerciseX.X` dort kannst du einzelne Streaming Applikationen erstellen.
+
+
+
 

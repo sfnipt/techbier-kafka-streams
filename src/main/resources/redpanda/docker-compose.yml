@@ -23,7 +23,7 @@ services:
       - --advertise-pandaproxy-addr
       - PLAINTEXT://redpanda:28082,OUTSIDE://localhost:8082
     ports:
-      - 8081:8081
+      - 8888:8081
       - 8082:8082
       - 9092:9092
       - 28082:28082

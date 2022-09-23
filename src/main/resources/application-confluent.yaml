@@ -6,6 +6,7 @@ KAFKA_SECRET: secret
 SR_API_KEY: secret
 SR_API_SECRET: secret
 
+INITIALS: ${USER}
 
 spring:
   kafka:

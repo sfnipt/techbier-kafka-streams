@@ -1,6 +1,3 @@
-# Initials for app-id
-INITIALS: ${USER}
-
 spring:
   kafka:
 
