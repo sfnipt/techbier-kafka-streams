@@ -1,23 +1,15 @@
-# Setup
-
-Folgendes ausführen
-```
-mvn clean install
-```
-
-
-# App starten
+# Umgebung konfigurieren
 
 Diese App produziert, konsumiert und verarbeitet Kafka Events. 
 
-Es gibt 3 Möglichkeiten wie diese App integriert werden kann:
+Es gibt 2 Umgebuingen welche konfigurierte werden können:
 
 * Confluent Cloud
 * Lokaler Redpanda Cluster
 
 ## Confluent Cloud
 
-1. Aktives Spring Boot Profile auf "confluent" setzen: [Anleitung IntelliJ](https://www.jetbrains.com/help/idea/run-debug-configuration-spring-boot.html#modify-options)
+1. Aktives Spring Boot Profile auf `confluent` setzen: [Anleitung IntelliJ](https://www.jetbrains.com/help/idea/run-debug-configuration-spring-boot.html#modify-options)
 
 2. In `src/main/resources/application-confluent.yml` folgende Werte befüllen.
    * INITIALS (z.B. `PGR`)
@@ -48,7 +40,7 @@ Es gibt 3 Möglichkeiten wie diese App integriert werden kann:
 
 3. Redpanda Profil aktivieren
 
-   Aktives Spring Boot Profile auf "redpanda" setzen: [Anleitung IntelliJ](https://www.jetbrains.com/help/idea/run-debug-configuration-spring-boot.html#modify-options)
+   Aktives Spring Boot Profile auf `redpanda` setzen: [Anleitung IntelliJ](https://www.jetbrains.com/help/idea/run-debug-configuration-spring-boot.html#modify-options)
 
 4. Kafka Producer aktivieren
 
@@ -72,13 +64,13 @@ docker-compose kill
 docker-compose rm
 ```
 
-## 2. App starten
+## App starten
 
-Die Klasse `ch.ipt.kafka.TechBierKafkaStreamsApplication` starten (korrektes Intellij Profil setzen)
+Die Klasse `ch.ipt.kafka.TechBierKafkaStreamsApplication` starten (Vorher muss korrektes Intellij Profil gesetzt werden)
 
 Du solltest jetzt in den Topics `accounts`& `transactions` messages sehen. Du kannst jetzt auf diese reagieren.
 
-## 2. App erweitern
+## App erweitern
 
 Aktivere die jeweiligen Klassen in `exerciseX.X` dort kannst du einzelne Streaming Applikationen erstellen.
 
