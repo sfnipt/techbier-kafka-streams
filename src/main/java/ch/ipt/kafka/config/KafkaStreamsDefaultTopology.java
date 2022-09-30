@@ -40,6 +40,12 @@ public class KafkaStreamsDefaultTopology {
     @Value("${topic-replicas}")
     private int replicas;
 
+    @Value("${source-topic-accounts}")
+    private String accountTopic;
+
+    @Value("${source-topic-transactions}")
+    private String transactionTopic;
+
     @Bean
     KStream<String, Payment> buildPipeline(StreamsBuilder streamsBuilder) {
 
@@ -52,6 +58,16 @@ public class KafkaStreamsDefaultTopology {
         LOGGER.info(String.valueOf(streamsBuilder.build().describe()));
 
         return messageStream;
+    }
+
+    @Bean
+    public NewTopic createTransactionTopic() {
+        return createTopic(transactionTopic);
+    }
+
+    @Bean
+    public NewTopic createAccountTopic() {
+        return createTopic(accountTopic);
     }
 
     @Bean

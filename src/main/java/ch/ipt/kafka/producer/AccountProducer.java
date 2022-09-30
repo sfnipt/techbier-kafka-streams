@@ -1,6 +1,8 @@
 package ch.ipt.kafka.producer;
 
 import ch.ipt.kafka.techbier.Account;
+import org.apache.kafka.clients.admin.NewTopic;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.annotation.PostConstruct;
@@ -12,7 +14,12 @@ public class AccountProducer {
 
     @Value("${source-topic-accounts}")
     private String sourceTopic;
+
+    @Autowired
     KafkaProducer kafkaProducer;
+
+    @Autowired
+    private NewTopic createAccountTopic;
 
     public AccountProducer(KafkaProducer kafkaProducer) {
         this.kafkaProducer = kafkaProducer;
