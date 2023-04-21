@@ -2,7 +2,7 @@ spring:
   kafka:
 
     streams:
-      application-id: techbier-2022-${INITIALS}
+      application-id: techbier-2023-${INITIALS}
       state-dir: ${user.dir}/target/state
 
       properties:
@@ -17,8 +17,8 @@ spring:
     consumer:
       value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      properties:
-        specific.avro.reader: true
+#      properties:
+#        specific.avro.reader: true
 
 source-topic-transactions: transactions
 source-topic-accounts: accounts

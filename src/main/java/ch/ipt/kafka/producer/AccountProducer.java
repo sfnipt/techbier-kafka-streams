@@ -4,25 +4,26 @@ import ch.ipt.kafka.techbier.Account;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
 
 //This class is only needed to produce data. probably someone else is already producing data
-//@Configuration
+@Configuration
 public class AccountProducer {
 
     @Value("${source-topic-accounts}")
     private String sourceTopic;
 
     @Autowired
-    KafkaProducer kafkaProducer;
+    OurKafkaProducer ourKafkaProducer;
 
     @Autowired
     private NewTopic createAccountTopic;
 
-    public AccountProducer(KafkaProducer kafkaProducer) {
-        this.kafkaProducer = kafkaProducer;
+    public AccountProducer(OurKafkaProducer ourKafkaProducer) {
+        this.ourKafkaProducer = ourKafkaProducer;
     }
 
     @PostConstruct
@@ -31,7 +32,7 @@ public class AccountProducer {
                 .forEach(
                         accountEnum -> {
                             Account account = AccountDataEnum.getAccount(accountEnum);
-                            kafkaProducer.sendAccount(account, sourceTopic);
+                            ourKafkaProducer.sendAccount(account, sourceTopic);
                         });
     }
 
